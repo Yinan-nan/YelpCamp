@@ -19,14 +19,35 @@ router.get("/new", middleware.isLoggedIn, function(req, res) {
 	res.render("campgrounds/new");
 })
 router.get("/", function(req,res){
+	var noMatch;
+	if(req.query.search) {
+		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+		Campground.find({name: regex}, function(err, allcampgrounds) {
+			if(err) {
+				console.log(err);
+			} else{
+				
+				if(allcampgrounds.length < 1) {
+					noMatch = "No Campground match the search, please try again!";
+				} 
+				res.render("campgrounds/index",{campgrounds: allcampgrounds,  noMatch:noMatch});
+				
+				
+			}
+		})
+		
+	} else {
+		//get all campgrounds from DB
+		Campground.find({}, function(err, allcampgrounds) {
+			if(err) {
+				console.log(err);
+			} else{
+				res.render("campgrounds/index",{campgrounds: allcampgrounds, noMatch:noMatch});
+			}
+		})
+	}
 	//console.log(res);
-	Campground.find({}, function(err, allcampgrounds) {
-		if(err) {
-			console.log(err);
-		} else{
-			res.render("campgrounds/index",{campgrounds: allcampgrounds, currenUser:req.user});
-		}
-	})
+	
 });
 
 // router.post("/", middleware.isLoggedIn,function(req, res){
@@ -151,6 +172,8 @@ router.delete("/:id", middleware.checkCampgroundOwnership, function(req, res){
 })
 
 
-
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 module.exports = router;
