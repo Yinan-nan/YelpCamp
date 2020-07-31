@@ -11,6 +11,7 @@ var LocalStrategy = require("passport-local");
 var User = require("./models/user");
 var flash = require("connect-flash");
 
+
 var mongoose = require("mongoose");
 
 var commentRoutes = require("./routes/comments"),
@@ -40,6 +41,7 @@ app.use(require("express-session")({
 	saveUninitialized:false
 }));
 
+app.locals.moment = require('moment');
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
