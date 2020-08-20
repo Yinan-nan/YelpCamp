@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 var Campground = require("./models/campground");
 var Comment = require("./models/comment");
+var User = require("./models/user");
 
 var data=[
 	{name: "Clouds' Rest", 
@@ -20,6 +21,37 @@ function seedDB() {
 			console.log(err);
 		}
 		console.log("removed campgrounds!");
+		// data.forEach(function(seed){
+		// 	Campground.create(seed, function(err, campground){
+		// 		if(err){
+		// 			console.log(err);
+		// 		}
+		// 		else {
+		// 			console.log("added");
+		// 			Comment.create({
+		// 				text:"This place is great, but I wish there was internet",
+		// 				author:"Homer"
+		// 			},function(err, comment){
+		// 				if(err){
+		// 					console.log(err);
+		// 				} else{
+
+		// 					campground.comments.push(comment);
+		// 					campground.save();
+		// 					console.log("created new common");
+		// 				}
+
+		// 			})
+		// 		}
+
+		// 	})
+		// })
+	})
+	User.remove({}, function(err){
+		if(err) {
+			console.log(err);
+		}
+		console.log("removed users!");
 		// data.forEach(function(seed){
 		// 	Campground.create(seed, function(err, campground){
 		// 		if(err){
