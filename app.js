@@ -26,7 +26,7 @@ var url = process.env.DATABASEURL || "mongodb://localhost/yelp_camp";
 mongoose.connect(url);
 
 
-// seedDB();
+seedDB();
 
 
 const axios = require('axios');
